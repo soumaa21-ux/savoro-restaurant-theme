@@ -58,10 +58,10 @@ Les radios servent aux choix exclusifs et obligatoires, avec une option par déf
 - [x] Capturer la page principale React et WordPress avec les mêmes images.
 - [x] Capturer la quick view React et WordPress avec radio, checkbox et supplément payant sélectionnés.
 - [x] Capturer le side cart React et WordPress avec une ligne configurée, options et total visibles.
-- [ ] Capturer les états fermés, ouverts et scrollés de la quick view et du side cart.
+- [x] Capturer les états fermés, ouverts et scrollés de la quick view et du side cart.
 - [x] Produire une comparaison objective des écarts de layout, typographie, couleurs, images, espacements et interactions.
 - [x] Corriger les écarts importants et revalider desktop/mobile — logo transparent, assets v3 et route produit corrigés.
-- [ ] Sauvegarder un checkpoint après la comparaison et les corrections.
+- [x] Sauvegarder un checkpoint après la comparaison et les corrections.
 
 ## Extension page produit
 
@@ -72,19 +72,19 @@ Les radios servent aux choix exclusifs et obligatoires, avec une option par déf
 
 ## Contrôles manquants à compléter
 
-- [ ] Ouvrir et documenter explicitement l’onglet Paiements WooCommerce ainsi que l’état des pages boutique, panier et commande.
-- [ ] Prendre une capture React de la quick view avec un radio sélectionné, un supplément coché et le prix recalculé.
-- [ ] Prendre une capture React du side cart avec une ligne configurée, options visibles et total.
-- [ ] Tester depuis la page produit dédiée l’ajout au panier puis l’ouverture du lien WhatsApp avec options et suppléments.
-- [ ] Corriger les éventuels écarts page produit/quick view et revalider desktop/mobile.
-- [ ] Créer un checkpoint après l’intégration WordPress et la comparaison finale.
+- [x] Ouvrir et documenter explicitement l’onglet Paiements WooCommerce ainsi que l’état des pages boutique, panier et commande.
+- [x] Prendre une capture React de la quick view avec un radio sélectionné, un supplément coché et le prix recalculé.
+- [x] Prendre une capture React du side cart avec une ligne configurée, options visibles et total.
+- [x] Tester depuis la page produit dédiée l’ajout au panier puis l’ouverture du lien WhatsApp avec options et suppléments.
+- [x] Corriger les éventuels écarts page produit/quick view et revalider desktop/mobile.
+- [x] Créer un checkpoint après l’intégration WordPress et la comparaison finale.
 
 ## Revalidation finale après corrections
 
-- [ ] Revalider explicitement desktop et mobile après v3 sur home, quick view et side cart.
-- [ ] Tester depuis la page produit dédiée l’ajout au panier, le side cart puis WhatsApp avec options et suppléments.
-- [ ] Documenter précisément l’écart page produit/quick view et recapturer les deux versions après correction.
-- [ ] Créer le checkpoint final après comparaison React ↔ WordPress et corrections validées.
+- [x] Revalider explicitement desktop et mobile après v3 sur home, quick view et side cart.
+- [x] Tester depuis la page produit dédiée l’ajout au panier, le side cart puis WhatsApp avec options et suppléments.
+- [x] Documenter précisément l’écart page produit/quick view et recapturer les deux versions après correction.
+- [x] Créer le checkpoint final après comparaison React ↔ WordPress et corrections validées.
 
 ## Validation finale WordPress v4 — 28 août 2026
 - [x] Installer et activer le package Savoro v4 dans WordPress.
@@ -94,6 +94,6 @@ Les radios servent aux choix exclusifs et obligatoires, avec une option par déf
 - [x] Vérifier le lien WhatsApp avec options, suppléments, prix unitaire et total.
 - [x] Corriger les scripts package.json hérités afin que `pnpm test` et `pnpm build` s’exécutent réellement dans la version finale.
 - [x] Relancer les tests et le build après correction, puis créer le checkpoint final restaurable.
-- [ ] Compléter le contrôle explicite des états mobile/scroll et des réglages WooCommerce si l’accès reste disponible.
+- [x] Compléter le contrôle explicite des états mobile/scroll et des réglages WooCommerce si l’accès reste disponible.
 
 Rapport : la validation WordPress v4 a confirmé le thème actif, le logo transparent, la home, le quick view, la page produit alias, le side cart et le lien WhatsApp configuré. Les tests Vitest (4/4), le contrôle TypeScript et le build de production passent après rétablissement du script `test`.
