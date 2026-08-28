@@ -15,3 +15,7 @@ La variable frontend à renseigner est `VITE_WHATSAPP_NUMBER`. Elle doit conteni
 ## Limite importante
 
 `wa.me` ouvre une conversation et préremplit le texte ; il ne confirme pas automatiquement le paiement, la disponibilité ou la préparation. Pour une commande réellement validée, le restaurant doit confirmer la commande dans WhatsApp ou utiliser un checkout commerce séparé. Les prix et les disponibilités devront être revalidés côté serveur lors d’une future intégration WooCommerce ou Shopify.
+
+## Page produit dédiée
+
+WordPress peut renvoyer 404 sur une route React profonde comme `/produit/pizza-primavera` lorsque ses permaliens ne réécrivent pas cette URL vers le template du thème. L’alias compatible utilisé par Savoro est donc `/?savoro_product=pizza-primavera`. Il charge la même page produit React avec la même image, les radios, les cases à cocher, les suppléments, le prix recalculé, le panier latéral et le lien WhatsApp.

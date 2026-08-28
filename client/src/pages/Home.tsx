@@ -55,13 +55,15 @@ const customizations: Record<number, Customization> = {
   5: { choiceLabel: "Service", choices: [{ id: "solo", label: "Pour moi", price: 0 }, { id: "duo", label: "À deux", price: 2 }], extras: [{ id: "icecream", label: "Crème glacée vanille", price: 2.5 }, { id: "hazelnut", label: "Noisettes torréfiées", price: 1.5 }] },
 };
 
+const assetBase = (globalThis as { SAVORO_ASSET_BASE?: string }).SAVORO_ASSET_BASE ?? "/manus-storage";
+
 const menuItems: MenuItem[] = [
   {
     id: 1,
     name: "Burrata au feu de bois",
     description: "Tomates rôties, basilic froissé, huile d’olive aux braises.",
     price: 13.5,
-    image: "/manus-storage/savoro-hero-table_030cf89e.jpg",
+    image: `${assetBase}/savoro-hero-table_030cf89e.jpg`,
     category: "À partager",
     tags: ["Végétarien", "À partager"],
     badge: "Favori de la maison",
@@ -73,7 +75,7 @@ const menuItems: MenuItem[] = [
     name: "Pizza Primavera",
     description: "Mozzarella fior di latte, basilic, tomates confites et pecorino.",
     price: 16.5,
-    image: "/manus-storage/savoro-pizza_fbc68958.jpg",
+    image: `${assetBase}/savoro-pizza_fbc68958.jpg`,
     category: "Pizzas",
     tags: ["Végétarien", "Le plus choisi"],
     badge: "Le plus choisi",
@@ -85,7 +87,7 @@ const menuItems: MenuItem[] = [
     name: "Risotto du marché",
     description: "Safran, champignons rôtis, parmesan affiné et jus réduit.",
     price: 18,
-    image: "/manus-storage/savoro-risotto_d0c66110.jpg",
+    image: `${assetBase}/savoro-risotto_d0c66110.jpg`,
     category: "Signatures",
     tags: ["Sans gluten", "Végétarien"],
     rating: "4.7",
@@ -96,7 +98,7 @@ const menuItems: MenuItem[] = [
     name: "Rigatoni arrabbiata",
     description: "Sauce tomate piquante, ail doux, pecorino et persil plat.",
     price: 15.5,
-    image: "/manus-storage/savoro-pizza_fbc68958.jpg",
+    image: `${assetBase}/savoro-pizza_fbc68958.jpg`,
     category: "Pâtes",
     tags: ["Végétalien", "Épicé"],
     spicy: true,
@@ -107,7 +109,7 @@ const menuItems: MenuItem[] = [
     name: "Tarte chocolat noisette",
     description: "Ganache intense, crème fraîche légère et éclats de noisette.",
     price: 8.5,
-    image: "/manus-storage/savoro-dessert_9016693a.jpg",
+    image: `${assetBase}/savoro-dessert_9016693a.jpg`,
     category: "Douceurs",
     tags: ["À ne pas partager"],
     badge: "Dernières parts",
@@ -209,7 +211,7 @@ export default function Home() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Retourner en haut du menu"
           >
-            <img src="/manus-storage/savoro-steam-s-logo_2851daf5.png" alt="" className="h-10 w-10 object-contain" />
+            <img src={`${assetBase}/savoro-steam-s-logo_2851daf5.png`} alt="" className="h-10 w-10 object-contain" />
             <span className="font-display text-[1.8rem] leading-none tracking-[-0.08em]">savoro</span>
           </button>
 
@@ -241,7 +243,7 @@ export default function Home() {
 
       <main>
         <section className="relative min-h-[535px] overflow-hidden border-b border-[#2f251e]/10 lg:min-h-[570px]">
-          <img src="/manus-storage/savoro-hero-table_030cf89e.jpg" alt="Table de repas à partager" className="absolute inset-0 h-full w-full object-cover object-[68%_center]" />
+          <img src={`${assetBase}/savoro-hero-table_030cf89e.jpg`} alt="Table de repas à partager" className="absolute inset-0 h-full w-full object-cover object-[68%_center]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#fbf7ee] via-[#fbf7ee]/92 via-42% to-[#fbf7ee]/15" />
           <div className="relative mx-auto flex min-h-[535px] max-w-[1600px] flex-col justify-end px-4 pb-10 pt-20 sm:px-6 lg:min-h-[570px] lg:px-10 lg:pb-16">
             <div className="max-w-[610px]">
