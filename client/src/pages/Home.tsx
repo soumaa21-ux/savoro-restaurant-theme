@@ -125,6 +125,7 @@ export default function Home() {
   const [selectedChoice, setSelectedChoice] = useState("");
   const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [editingLineKey, setEditingLineKey] = useState<string | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -145,12 +146,15 @@ export default function Home() {
     window.setTimeout(() => setNotice(null), 2400);
   };
 
-  const openQuickView = (item: MenuItem) => {
+  const openQuickView = (item: MenuItem, existingLine?: CartItem) => {
     const config = customizations[item.id];
+    const savedChoice = existingLine?.options[0];
+    const savedExtras = existingLine?.options.slice(1) ?? [];
     setSelected(item);
-    setSelectedChoice(config?.choices[0]?.id ?? "");
-    setSelectedExtras([]);
-    setSelectedQuantity(1);
+    setSelectedChoice(config?.choices.find((option) => option.label === savedChoice)?.id ?? config?.choices[0]?.id ?? "");
+    setSelectedExtras(config?.extras.filter((option) => savedExtras.includes(option.label)).map((option) => option.id) ?? []);
+    setSelectedQuantity(existingLine?.quantity ?? 1);
+    setEditingLineKey(existingLine?.lineKey ?? null);
   };
 
   const addToCart = (item: MenuItem, configuration?: { quantity: number; unitPrice: number; labels: string[] }) => {
@@ -159,13 +163,17 @@ export default function Home() {
     const options = configuration?.labels ?? [];
     const lineKey = `${item.id}-${options.join("|") || "standard"}`;
     setCart((current) => {
+      if (editingLineKey) {
+        return current.map((cartItem) => cartItem.lineKey === editingLineKey ? { ...item, quantity, lineKey, options, finalPrice } : cartItem);
+      }
       const existing = current.find((cartItem) => cartItem.lineKey === lineKey);
       if (existing) {
         return current.map((cartItem) => cartItem.lineKey === lineKey ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem);
       }
       return [...current, { ...item, quantity, lineKey, options, finalPrice }];
     });
-    showNotice(`${item.name} a rejoint votre commande.`);
+    setEditingLineKey(null);
+    showNotice(editingLineKey ? `${item.name} a été mis à jour.` : `${item.name} a rejoint votre commande.`);
   };
 
   const changeQuantity = (lineKey: string, delta: number) => {
@@ -329,7 +337,7 @@ export default function Home() {
                 </div>}
                 <div className="mt-5 flex items-center justify-between"><span className="text-sm font-bold">Quantité</span><div className="quantity-control"><button onClick={() => setSelectedQuantity((quantity) => Math.max(1, quantity - 1))} aria-label="Retirer une unité"><Minus className="h-3.5 w-3.5" /></button><span>{selectedQuantity}</span><button onClick={() => setSelectedQuantity((quantity) => quantity + 1)} aria-label="Ajouter une unité"><Plus className="h-3.5 w-3.5" /></button></div></div>
                 <div className="flex flex-wrap gap-2 mt-5">{selected.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-                <button className="primary-cta mt-6 w-full justify-center" onClick={() => { addToCart(selected, { quantity: selectedQuantity, unitPrice: selectedUnitPrice, labels: [selectedChoiceOption?.label ?? "Format standard", ...selectedExtrasOptions.map((option) => option.label)] }); setSelected(null); }}>Ajouter · {formatPrice(selectedUnitPrice * selectedQuantity)} <Plus className="h-4 w-4" /></button>
+                <button className="primary-cta mt-6 w-full justify-center" onClick={() => { addToCart(selected, { quantity: selectedQuantity, unitPrice: selectedUnitPrice, labels: [selectedChoiceOption?.label ?? "Format standard", ...selectedExtrasOptions.map((option) => option.label)] }); setSelected(null); }}>{editingLineKey ? "Mettre à jour" : "Ajouter"} · {formatPrice(selectedUnitPrice * selectedQuantity)} <Plus className="h-4 w-4" /></button>
               </div>
             </div>
           </div>
@@ -345,7 +353,7 @@ export default function Home() {
               {cart.length === 0 ? (
                 <div className="flex h-full min-h-72 flex-col items-center justify-center text-center"><span className="grid h-16 w-16 place-items-center rounded-full bg-[#e9dfce]"><UtensilsCrossed className="h-7 w-7 text-[#d95f32]" /></span><h3 className="mt-5 font-display text-3xl tracking-[-0.05em]">Un peu faim ?</h3><p className="mt-2 max-w-64 text-sm leading-6 text-[#685a4d]">Votre sélection apparaîtra ici, prête à être finalisée.</p><button className="mt-5 font-bold underline decoration-[#d95f32] decoration-2 underline-offset-4" onClick={() => setCartOpen(false)}>Explorer la carte</button></div>
               ) : cart.map((item) => (
-                <div key={item.lineKey} className="flex gap-3 border-b border-dashed border-[#2f251e]/15 py-4 first:pt-0"><img src={item.image} alt="" className="h-[74px] w-[74px] rounded-[1rem_1rem_1rem_0.25rem] object-cover" /><div className="min-w-0 flex-1"><div className="flex justify-between gap-2"><h3 className="font-display text-xl leading-5 tracking-[-0.04em]">{item.name}</h3><span className="text-sm font-bold">{formatPrice(item.finalPrice * item.quantity)}</span></div>{item.options.length > 0 && <p className="mt-2 text-xs leading-5 text-[#685a4d]">{item.options.join(" · ")}</p>}<div className="mt-3 flex items-center justify-between"><div className="quantity-control"><button onClick={() => changeQuantity(item.lineKey, -1)} aria-label={`Retirer un ${item.name}`}><Minus className="h-3.5 w-3.5" /></button><span>{item.quantity}</span><button onClick={() => changeQuantity(item.lineKey, 1)} aria-label={`Ajouter un ${item.name}`}><Plus className="h-3.5 w-3.5" /></button></div><button className="text-xs font-bold text-[#685a4d] underline underline-offset-4" onClick={() => changeQuantity(item.lineKey, -item.quantity)}>Retirer</button></div></div></div>
+                <div key={item.lineKey} className="flex gap-3 border-b border-dashed border-[#2f251e]/15 py-4 first:pt-0"><img src={item.image} alt="" className="h-[74px] w-[74px] rounded-[1rem_1rem_1rem_0.25rem] object-cover" /><div className="min-w-0 flex-1"><div className="flex justify-between gap-2"><h3 className="font-display text-xl leading-5 tracking-[-0.04em]">{item.name}</h3><span className="text-sm font-bold">{formatPrice(item.finalPrice * item.quantity)}</span></div>{item.options.length > 0 && <p className="mt-2 text-xs leading-5 text-[#685a4d]">{item.options.join(" · ")}</p>}<div className="mt-3 flex items-center justify-between"><div className="quantity-control"><button onClick={() => changeQuantity(item.lineKey, -1)} aria-label={`Retirer un ${item.name}`}><Minus className="h-3.5 w-3.5" /></button><span>{item.quantity}</span><button onClick={() => changeQuantity(item.lineKey, 1)} aria-label={`Ajouter un ${item.name}`}><Plus className="h-3.5 w-3.5" /></button></div><div className="flex items-center gap-3"><button className="edit-line" onClick={() => openQuickView(item, item)}>Modifier</button><button className="text-xs font-bold text-[#685a4d] underline underline-offset-4" onClick={() => changeQuantity(item.lineKey, -item.quantity)}>Retirer</button></div></div></div></div>
               ))}
             </div>
             {cart.length > 0 && <div className="border-t border-[#2f251e]/10 bg-[#f4ecdf] p-6"><div className="flex justify-between font-semibold"><span>Sous-total</span><span>{formatPrice(subtotal)}</span></div><p className="mt-2 text-xs leading-5 text-[#685a4d]">Taxes et détails de retrait à l’étape suivante.</p><button className="primary-cta mt-5 w-full justify-center" onClick={() => showNotice("Le raccordement au checkout est prêt à être configuré.")}>Continuer la commande <ArrowRight className="h-4 w-4" /></button></div>}

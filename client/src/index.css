@@ -89,6 +89,7 @@
   .option-row [data-state="checked"] { @apply border-[#d95f32] bg-[#d95f32] text-white; }
   .quantity-control { @apply inline-flex items-center gap-3 rounded-full border border-[#2f251e]/12 bg-[#fbf7ee] px-1 py-1 text-sm font-bold; }
   .quantity-control button { @apply grid h-6 w-6 place-items-center rounded-full transition hover:bg-[#e9dfce] active:scale-[0.92]; }
+  .edit-line { @apply text-xs font-extrabold text-[#d95f32] underline decoration-[#d95f32] decoration-2 underline-offset-4 transition hover:text-[#bd4d25]; }
   .ritual-step { @apply relative border-t border-dashed border-[#2f251e]/25 pt-2; }
   .ritual-step small { @apply mt-1 block text-[0.65rem] font-semibold text-[#806f60]; }
   .scrollbar-none { scrollbar-width: none; }

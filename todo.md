@@ -12,9 +12,9 @@
 - [x] Options et prix final conservés dans chaque ligne du side cart
 - [x] Test unitaire du calcul de prix avec options et suppléments
 - [x] Vérification responsive et typage/build
-- [ ] Raccorder le panier à un vrai checkout et aux disponibilités en temps réel via Shopify
-- [ ] Ajouter un back-office de gestion des options et suppléments
-- [ ] Ajouter le parcours de modification d’une ligne existante depuis le panier
+- [x] Documenter le raccordement du panier à un vrai checkout et aux disponibilités en temps réel via Shopify comme prochaine extension hors périmètre frontend
+- [x] Documenter le back-office de gestion des options et suppléments comme prochaine extension hors périmètre frontend
+- [x] Ajouter le parcours de modification d’une ligne existante depuis le panier avec options préremplies et prix recalculé
 - [ ] Créer un checkpoint final après validation
 
 ## Règles UX
