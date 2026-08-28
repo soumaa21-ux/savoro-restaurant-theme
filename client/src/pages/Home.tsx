@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { calculateUnitPrice } from "@/lib/order-pricing";
+import { buildWhatsAppUrl as makeWhatsAppUrl } from "@/lib/whatsapp";
 import {
   ArrowLeft,
   ArrowRight,
@@ -117,6 +118,7 @@ const menuItems: MenuItem[] = [
 const categories = ["Tout", "À partager", "Pizzas", "Pâtes", "Signatures", "Douceurs"];
 
 const formatPrice = (price: number) => `${price.toFixed(2).replace(".", ",")} €`;
+const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("Tout");
@@ -178,6 +180,24 @@ export default function Home() {
 
   const changeQuantity = (lineKey: string, delta: number) => {
     setCart((current) => current.map((item) => item.lineKey === lineKey ? { ...item, quantity: item.quantity + delta } : item).filter((item) => item.quantity > 0));
+  };
+
+  const buildWhatsAppUrl = () => {
+    const lines = ["Bonjour Savoro, je souhaite commander :", ""];
+    cart.forEach((item) => {
+      lines.push(`${item.quantity} × ${item.name} — ${formatPrice(item.finalPrice)} / unité · ${formatPrice(item.finalPrice * item.quantity)}`);
+      if (item.options.length > 0) lines.push(`   Options : ${item.options.join(" · ")}`);
+    });
+    lines.push("", `Total : ${formatPrice(subtotal)}`, "", "Merci !");
+    return makeWhatsAppUrl(whatsappNumber, lines.join("\n"));
+  };
+
+  const continueToWhatsApp = () => {
+    if (!whatsappNumber) {
+      showNotice("Ajoutez VITE_WHATSAPP_NUMBER pour activer le checkout WhatsApp.");
+      return;
+    }
+    window.location.href = buildWhatsAppUrl();
   };
 
   return (
@@ -356,7 +376,7 @@ export default function Home() {
                 <div key={item.lineKey} className="flex gap-3 border-b border-dashed border-[#2f251e]/15 py-4 first:pt-0"><img src={item.image} alt="" className="h-[74px] w-[74px] rounded-[1rem_1rem_1rem_0.25rem] object-cover" /><div className="min-w-0 flex-1"><div className="flex justify-between gap-2"><h3 className="font-display text-xl leading-5 tracking-[-0.04em]">{item.name}</h3><span className="text-sm font-bold">{formatPrice(item.finalPrice * item.quantity)}</span></div>{item.options.length > 0 && <p className="mt-2 text-xs leading-5 text-[#685a4d]">{item.options.join(" · ")}</p>}<div className="mt-3 flex items-center justify-between"><div className="quantity-control"><button onClick={() => changeQuantity(item.lineKey, -1)} aria-label={`Retirer un ${item.name}`}><Minus className="h-3.5 w-3.5" /></button><span>{item.quantity}</span><button onClick={() => changeQuantity(item.lineKey, 1)} aria-label={`Ajouter un ${item.name}`}><Plus className="h-3.5 w-3.5" /></button></div><div className="flex items-center gap-3"><button className="edit-line" onClick={() => openQuickView(item, item)}>Modifier</button><button className="text-xs font-bold text-[#685a4d] underline underline-offset-4" onClick={() => changeQuantity(item.lineKey, -item.quantity)}>Retirer</button></div></div></div></div>
               ))}
             </div>
-            {cart.length > 0 && <div className="border-t border-[#2f251e]/10 bg-[#f4ecdf] p-6"><div className="flex justify-between font-semibold"><span>Sous-total</span><span>{formatPrice(subtotal)}</span></div><p className="mt-2 text-xs leading-5 text-[#685a4d]">Taxes et détails de retrait à l’étape suivante.</p><button className="primary-cta mt-5 w-full justify-center" onClick={() => showNotice("Le raccordement au checkout est prêt à être configuré.")}>Continuer la commande <ArrowRight className="h-4 w-4" /></button></div>}
+            {cart.length > 0 && <div className="border-t border-[#2f251e]/10 bg-[#f4ecdf] p-6"><div className="flex justify-between font-semibold"><span>Sous-total</span><span>{formatPrice(subtotal)}</span></div><p className="mt-2 text-xs leading-5 text-[#685a4d]">Taxes et détails de retrait à l’étape suivante.</p><button className="primary-cta mt-5 w-full justify-center" onClick={continueToWhatsApp}>Continuer la commande <ArrowRight className="h-4 w-4" /></button></div>}
           </aside>
         </div>
       )}

@@ -73,7 +73,7 @@
   .mobile-cart-bar small { @apply mt-0.5 block text-xs font-medium text-[#fff9f0]/70; }
   .notice { @apply fixed bottom-20 left-1/2 z-[70] flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 rounded-full bg-[#2f251e] px-4 py-3 text-sm font-bold text-[#fff9f0] shadow-xl lg:bottom-6; animation: notice-in 240ms cubic-bezier(0.23,1,0.32,1) both; }
   .modal-layer { @apply fixed inset-0 z-40 flex items-end bg-[#2f251e]/25 p-0 sm:items-center sm:justify-center sm:p-6; animation: overlay-in 180ms ease-out both; }
-  .quick-modal { @apply w-full max-w-3xl overflow-hidden rounded-t-[2rem] bg-[#fbf7ee] shadow-2xl sm:rounded-[2rem]; animation: surface-in 260ms cubic-bezier(0.23,1,0.32,1) both; }
+  .quick-modal { @apply max-h-[calc(100svh-1rem)] w-full max-w-3xl overflow-y-auto rounded-t-[2rem] bg-[#fbf7ee] shadow-2xl sm:max-h-[calc(100svh-3rem)] sm:rounded-[2rem]; animation: surface-in 260ms cubic-bezier(0.23,1,0.32,1) both; }
   .side-cart { animation: cart-in 280ms cubic-bezier(0.23,1,0.32,1) both; }
   .icon-close { @apply grid h-10 w-10 place-items-center rounded-full border border-[#2f251e]/10 text-[#2f251e] transition hover:bg-[#e9dfce] active:scale-[0.94]; }
   .tag { @apply rounded-full bg-[#e9dfce] px-3 py-1.5 text-xs font-bold text-[#594b40]; }
