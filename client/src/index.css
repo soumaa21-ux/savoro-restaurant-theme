@@ -1,13 +1,16 @@
+/*
+ * Direction « Cuisine d’atelier » : douceur ivoire, encre brune, actions Paprika Brûlé.
+ * Le mouvement est bref et tactile ; les composants n’emploient jamais un langage visuel générique.
+ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "Manrope", sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -27,151 +30,64 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
-}
-
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
-}
+:root { --radius: 1rem; --background: #fbf7ee; --foreground: #2f251e; --card: #fffdf7; --card-foreground: #2f251e; --popover: #fbf7ee; --popover-foreground: #2f251e; --primary: #d95f32; --primary-foreground: #fff9f0; --secondary: #e9dfce; --secondary-foreground: #2f251e; --muted: #f4ecdf; --muted-foreground: #685a4d; --accent: #f3dfd4; --accent-foreground: #2f251e; --destructive: #a33a24; --destructive-foreground: #fff9f0; --border: #2f251e1a; --input: #2f251e1a; --ring: #d95f32; }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+  * { @apply border-border outline-ring/50; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background font-sans text-foreground antialiased; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button:focus-visible { outline: 2px solid #d95f32; outline-offset: 3px; }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
-  }
+  .eyebrow { @apply inline-flex items-center gap-1.5 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[#806f60]; }
+  .ticket-stamp { @apply inline-grid min-w-7 place-items-center rounded-full bg-[#d95f32] px-1.5 py-1 font-mono text-[0.6rem] font-bold tracking-normal text-white; }
+  .nav-link { @apply relative text-sm font-bold text-[#594b40] transition-colors hover:text-[#2f251e]; }
+  .nav-link.is-active::after { content: ""; @apply absolute -bottom-3 left-0 h-[2px] w-full bg-[#d95f32]; }
+  .cart-trigger { @apply flex h-10 items-center gap-2 rounded-full bg-[#2f251e] px-3 text-[#fff9f0] transition duration-200 hover:-translate-y-0.5 hover:bg-[#49382d] active:scale-[0.97]; }
+  .cart-count { @apply grid h-5 min-w-5 place-items-center rounded-full bg-[#d95f32] px-1 text-[0.65rem] font-extrabold text-white; }
+  .primary-cta { @apply inline-flex items-center gap-2 rounded-full bg-[#d95f32] px-5 py-3.5 text-sm font-extrabold text-white shadow-[0_7px_20px_rgba(217,95,50,0.23)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#bd4d25] active:scale-[0.97]; }
+  .rail-heading { @apply mb-5 flex items-center gap-2 border-b border-dashed border-[#2f251e]/25 pb-4; }
+  .category-link { @apply relative flex w-full items-center justify-between border-l-2 border-transparent px-3 py-3 text-left text-sm font-bold text-[#685a4d] transition hover:border-[#d95f32] hover:bg-[#f0e7d7] hover:text-[#2f251e]; }
+  .category-link.active { @apply border-[#d95f32] bg-[#2f251e] text-[#fff9f0] shadow-sm; }
+  .category-number { @apply grid min-w-7 place-items-center border-l border-dashed border-current/25 py-0.5 pl-2 font-mono text-[0.68rem] opacity-65; }
+  .category-link.active .category-number { @apply rounded-sm border-0 bg-[#d95f32] px-1.5 text-white opacity-100; }
+  .mobile-category { @apply shrink-0 rounded-full border border-[#2f251e]/15 px-4 py-2 text-sm font-bold text-[#685a4d] transition active:scale-[0.97]; }
+  .mobile-category.active { @apply border-[#2f251e] bg-[#2f251e] text-[#fff9f0]; }
+  .menu-card { @apply min-w-0; }
+  .dish-shape-a { border-radius: 2rem 2rem 2rem 0.35rem; }
+  .dish-shape-b { border-radius: 2rem 0.35rem 2rem 2rem; }
+  .image-badge { @apply absolute left-3 top-3 rounded-sm bg-[#d95f32] px-3 py-1.5 text-[0.62rem] font-extrabold uppercase tracking-[0.11em] text-white shadow-sm; }
+  .dish-number { @apply absolute bottom-3 right-3 grid h-8 w-8 place-items-center rounded-full bg-[#fbf7ee] font-mono text-xs font-bold text-[#d95f32] shadow-sm; }
+  .quick-view { @apply absolute bottom-3 left-3 inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-[#2f251e] px-3 py-2 text-xs font-extrabold text-[#fff9f0] opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100; }
+  .add-button { @apply grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[#2f251e]/15 text-[#2f251e] transition duration-200 hover:border-[#d95f32] hover:bg-[#d95f32] hover:text-white active:scale-[0.94]; }
+  .menu-price { @apply border-b-2 border-[#d95f32] pb-1 font-mono text-sm font-bold; }
+  .mobile-cart-bar { @apply fixed bottom-0 left-0 z-30 flex w-full items-center gap-3 border-t border-[#2f251e]/10 bg-[#2f251e] px-4 py-3.5 text-[#fff9f0] shadow-[0_-8px_30px_rgba(47,37,30,0.12)] lg:hidden; }
+  .mobile-cart-bar small { @apply mt-0.5 block text-xs font-medium text-[#fff9f0]/70; }
+  .notice { @apply fixed bottom-20 left-1/2 z-[70] flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 rounded-full bg-[#2f251e] px-4 py-3 text-sm font-bold text-[#fff9f0] shadow-xl lg:bottom-6; animation: notice-in 240ms cubic-bezier(0.23,1,0.32,1) both; }
+  .modal-layer { @apply fixed inset-0 z-40 flex items-end bg-[#2f251e]/25 p-0 sm:items-center sm:justify-center sm:p-6; animation: overlay-in 180ms ease-out both; }
+  .quick-modal { @apply w-full max-w-3xl overflow-hidden rounded-t-[2rem] bg-[#fbf7ee] shadow-2xl sm:rounded-[2rem]; animation: surface-in 260ms cubic-bezier(0.23,1,0.32,1) both; }
+  .side-cart { animation: cart-in 280ms cubic-bezier(0.23,1,0.32,1) both; }
+  .icon-close { @apply grid h-10 w-10 place-items-center rounded-full border border-[#2f251e]/10 text-[#2f251e] transition hover:bg-[#e9dfce] active:scale-[0.94]; }
+  .tag { @apply rounded-full bg-[#e9dfce] px-3 py-1.5 text-xs font-bold text-[#594b40]; }
+  .quantity-control { @apply inline-flex items-center gap-3 rounded-full border border-[#2f251e]/12 bg-[#fbf7ee] px-1 py-1 text-sm font-bold; }
+  .quantity-control button { @apply grid h-6 w-6 place-items-center rounded-full transition hover:bg-[#e9dfce] active:scale-[0.92]; }
+  .ritual-step { @apply relative border-t border-dashed border-[#2f251e]/25 pt-2; }
+  .ritual-step small { @apply mt-1 block text-[0.65rem] font-semibold text-[#806f60]; }
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
 }
+
+@keyframes notice-in { from { opacity: 0; transform: translate(-50%, 8px) scale(.97); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes surface-in { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes cart-in { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 1ms !important; } }
+@media (max-width: 1023px) { body { padding-bottom: 74px; } .quick-view { opacity: 1; transform: none; background: #2f251ebd; } }
