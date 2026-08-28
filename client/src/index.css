@@ -77,6 +77,16 @@
   .side-cart { animation: cart-in 280ms cubic-bezier(0.23,1,0.32,1) both; }
   .icon-close { @apply grid h-10 w-10 place-items-center rounded-full border border-[#2f251e]/10 text-[#2f251e] transition hover:bg-[#e9dfce] active:scale-[0.94]; }
   .tag { @apply rounded-full bg-[#e9dfce] px-3 py-1.5 text-xs font-bold text-[#594b40]; }
+  .customization-panel { @apply mt-5 space-y-5; }
+  .option-group { @apply border-t border-dashed border-[#2f251e]/20 pt-4; }
+  .option-heading { @apply flex items-center justify-between text-sm font-extrabold; }
+  .required-label, .optional-label { @apply rounded-full px-2 py-1 text-[0.6rem] font-extrabold uppercase tracking-[0.1em]; }
+  .required-label { @apply bg-[#f3dfd4] text-[#bd4d25]; }
+  .optional-label { @apply bg-[#e9dfce] text-[#806f60]; }
+  .option-row { @apply flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-transparent bg-[#f4ecdf] px-3 text-sm font-semibold text-[#594b40] transition hover:border-[#d95f32]/40; }
+  .option-row.selected { @apply border-[#d95f32]/45 bg-[#f3dfd4] text-[#2f251e]; }
+  .option-row > span:last-child { @apply font-mono text-xs font-bold text-[#806f60]; }
+  .option-row [data-state="checked"] { @apply border-[#d95f32] bg-[#d95f32] text-white; }
   .quantity-control { @apply inline-flex items-center gap-3 rounded-full border border-[#2f251e]/12 bg-[#fbf7ee] px-1 py-1 text-sm font-bold; }
   .quantity-control button { @apply grid h-6 w-6 place-items-center rounded-full transition hover:bg-[#e9dfce] active:scale-[0.92]; }
   .ritual-step { @apply relative border-t border-dashed border-[#2f251e]/25 pt-2; }

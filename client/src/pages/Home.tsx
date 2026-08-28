@@ -4,6 +4,9 @@
  * Les gestes fréquents restent accessibles au pouce ; le menu conserve son contexte.
  */
 import { useMemo, useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { calculateUnitPrice } from "@/lib/order-pricing";
 import {
   ArrowLeft,
   ArrowRight,
@@ -39,7 +42,17 @@ type MenuItem = {
   allergens?: string;
 };
 
-type CartItem = MenuItem & { quantity: number };
+type ModifierOption = { id: string; label: string; price: number };
+type Customization = { choiceLabel: string; choices: ModifierOption[]; extras: ModifierOption[] };
+type CartItem = MenuItem & { quantity: number; lineKey: string; options: string[]; finalPrice: number };
+
+const customizations: Record<number, Customization> = {
+  1: { choiceLabel: "Format", choices: [{ id: "share", label: "À partager", price: 0 }, { id: "generous", label: "Format généreux", price: 2.5 }], extras: [{ id: "bread", label: "Pain grillé maison", price: 2 }, { id: "ham", label: "Jambon cru affiné", price: 4 }] },
+  2: { choiceLabel: "Taille", choices: [{ id: "classic", label: "Classique", price: 0 }, { id: "large", label: "Grande", price: 3 }], extras: [{ id: "burrata", label: "Burrata crémeuse", price: 3 }, { id: "pepper", label: "Piments doux rôtis", price: 1.5 }] },
+  3: { choiceLabel: "Portion", choices: [{ id: "standard", label: "Portion standard", price: 0 }, { id: "generous", label: "Portion gourmande", price: 2.5 }], extras: [{ id: "truffle", label: "Huile de truffe", price: 2.5 }, { id: "parmesan", label: "Parmesan affiné", price: 1.5 }] },
+  4: { choiceLabel: "Intensité", choices: [{ id: "soft", label: "Douce", price: 0 }, { id: "hot", label: "Très relevée", price: 0 }], extras: [{ id: "pecorino", label: "Pecorino supplémentaire", price: 1.5 }, { id: "stracciatella", label: "Stracciatella", price: 3 }] },
+  5: { choiceLabel: "Service", choices: [{ id: "solo", label: "Pour moi", price: 0 }, { id: "duo", label: "À deux", price: 2 }], extras: [{ id: "icecream", label: "Crème glacée vanille", price: 2.5 }, { id: "hazelnut", label: "Noisettes torréfiées", price: 1.5 }] },
+};
 
 const menuItems: MenuItem[] = [
   {
@@ -109,6 +122,9 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("Tout");
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selected, setSelected] = useState<MenuItem | null>(null);
+  const [selectedChoice, setSelectedChoice] = useState("");
+  const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -118,32 +134,42 @@ export default function Home() {
     [activeCategory],
   );
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
+  const selectedConfig = selected ? customizations[selected.id] : null;
+  const selectedChoiceOption = selectedConfig?.choices.find((option) => option.id === selectedChoice);
+  const selectedExtrasOptions = selectedConfig?.extras.filter((option) => selectedExtras.includes(option.id)) ?? [];
+  const selectedUnitPrice = selected ? calculateUnitPrice(selected.price, selectedChoiceOption?.price ?? 0, selectedExtrasOptions.map((option) => option.price)) : 0;
 
   const showNotice = (message: string) => {
     setNotice(message);
     window.setTimeout(() => setNotice(null), 2400);
   };
 
-  const addToCart = (item: MenuItem) => {
+  const openQuickView = (item: MenuItem) => {
+    const config = customizations[item.id];
+    setSelected(item);
+    setSelectedChoice(config?.choices[0]?.id ?? "");
+    setSelectedExtras([]);
+    setSelectedQuantity(1);
+  };
+
+  const addToCart = (item: MenuItem, configuration?: { quantity: number; unitPrice: number; labels: string[] }) => {
+    const quantity = configuration?.quantity ?? 1;
+    const finalPrice = configuration?.unitPrice ?? item.price;
+    const options = configuration?.labels ?? [];
+    const lineKey = `${item.id}-${options.join("|") || "standard"}`;
     setCart((current) => {
-      const existing = current.find((cartItem) => cartItem.id === item.id);
+      const existing = current.find((cartItem) => cartItem.lineKey === lineKey);
       if (existing) {
-        return current.map((cartItem) =>
-          cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem,
-        );
+        return current.map((cartItem) => cartItem.lineKey === lineKey ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem);
       }
-      return [...current, { ...item, quantity: 1 }];
+      return [...current, { ...item, quantity, lineKey, options, finalPrice }];
     });
     showNotice(`${item.name} a rejoint votre commande.`);
   };
 
-  const changeQuantity = (id: number, delta: number) => {
-    setCart((current) =>
-      current
-        .map((item) => (item.id === id ? { ...item, quantity: item.quantity + delta } : item))
-        .filter((item) => item.quantity > 0),
-    );
+  const changeQuantity = (lineKey: string, delta: number) => {
+    setCart((current) => current.map((item) => item.lineKey === lineKey ? { ...item, quantity: item.quantity + delta } : item).filter((item) => item.quantity > 0));
   };
 
   return (
@@ -241,7 +267,7 @@ export default function Home() {
             <div className="grid gap-x-5 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
               {displayedItems.map((item) => (
                 <article key={item.id} className="menu-card group">
-                  <button className={`relative aspect-[1.08] w-full overflow-hidden bg-[#e9dfce] text-left ${item.id % 2 ? "dish-shape-a" : "dish-shape-b"}`} onClick={() => setSelected(item)} aria-label={`Voir ${item.name}`}>
+                  <button className={`relative aspect-[1.08] w-full overflow-hidden bg-[#e9dfce] text-left ${item.id % 2 ? "dish-shape-a" : "dish-shape-b"}`} onClick={() => openQuickView(item)} aria-label={`Voir ${item.name}`}>
                     <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.045]" />
                     {item.badge && <span className="image-badge">{item.badge}</span>}
                     <span className="dish-number">{String(item.id).padStart(2, "0")}</span>
@@ -257,7 +283,7 @@ export default function Home() {
                         <span>{item.tags[0]}</span>
                       </div>
                     </div>
-                    <button className="add-button" onClick={() => addToCart(item)} aria-label={`Ajouter ${item.name}`}><Plus className="h-5 w-5" /></button>
+                    <button className="add-button" onClick={() => openQuickView(item)} aria-label={`Personnaliser ${item.name}`}><Plus className="h-5 w-5" /></button>
                   </div>
                 </article>
               ))}
@@ -294,9 +320,16 @@ export default function Home() {
                 <p className="eyebrow mb-3">{selected.category}</p>
                 <div className="flex items-start justify-between gap-4"><h2 className="font-display text-4xl leading-none tracking-[-0.055em]">{selected.name}</h2><span className="shrink-0 font-bold">{formatPrice(selected.price)}</span></div>
                 <p className="mt-5 leading-7 text-[#685a4d]">{selected.description}</p>
-                <div className="my-6 border-y border-dashed border-[#2f251e]/20 py-4"><p className="text-sm"><strong>Allergènes :</strong> {selected.allergens}</p></div>
-                <div className="flex flex-wrap gap-2">{selected.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-                <button className="primary-cta mt-8 w-full justify-center" onClick={() => { addToCart(selected); setSelected(null); }}>Ajouter à la commande <Plus className="h-4 w-4" /></button>
+                <div className="my-5 border-y border-dashed border-[#2f251e]/20 py-4"><p className="text-sm"><strong>Allergènes :</strong> {selected.allergens}</p></div>
+                {selectedConfig && <div className="customization-panel">
+                  <div className="option-group"><div className="option-heading"><span>{selectedConfig.choiceLabel}</span><span className="required-label">Obligatoire</span></div><RadioGroup value={selectedChoice} onValueChange={setSelectedChoice} className="mt-3">
+                    {selectedConfig.choices.map((option) => <label className={`option-row ${selectedChoice === option.id ? "selected" : ""}`} key={option.id}><RadioGroupItem value={option.id} id={`${selected.id}-${option.id}`} /><span className="flex-1">{option.label}</span><span>{option.price ? `+${formatPrice(option.price)}` : "Inclus"}</span></label>)}
+                  </RadioGroup></div>
+                  {selectedConfig.extras.length > 0 && <div className="option-group"><div className="option-heading"><span>Suppléments</span><span className="optional-label">Au choix</span></div><div className="mt-3 space-y-2">{selectedConfig.extras.map((option) => <label className={`option-row ${selectedExtras.includes(option.id) ? "selected" : ""}`} key={option.id}><Checkbox checked={selectedExtras.includes(option.id)} onCheckedChange={(checked) => setSelectedExtras((current) => checked === true ? [...current, option.id] : current.filter((id) => id !== option.id))} /><span className="flex-1">{option.label}</span><span>+{formatPrice(option.price)}</span></label>)}</div></div>}
+                </div>}
+                <div className="mt-5 flex items-center justify-between"><span className="text-sm font-bold">Quantité</span><div className="quantity-control"><button onClick={() => setSelectedQuantity((quantity) => Math.max(1, quantity - 1))} aria-label="Retirer une unité"><Minus className="h-3.5 w-3.5" /></button><span>{selectedQuantity}</span><button onClick={() => setSelectedQuantity((quantity) => quantity + 1)} aria-label="Ajouter une unité"><Plus className="h-3.5 w-3.5" /></button></div></div>
+                <div className="flex flex-wrap gap-2 mt-5">{selected.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+                <button className="primary-cta mt-6 w-full justify-center" onClick={() => { addToCart(selected, { quantity: selectedQuantity, unitPrice: selectedUnitPrice, labels: [selectedChoiceOption?.label ?? "Format standard", ...selectedExtrasOptions.map((option) => option.label)] }); setSelected(null); }}>Ajouter · {formatPrice(selectedUnitPrice * selectedQuantity)} <Plus className="h-4 w-4" /></button>
               </div>
             </div>
           </div>
@@ -312,7 +345,7 @@ export default function Home() {
               {cart.length === 0 ? (
                 <div className="flex h-full min-h-72 flex-col items-center justify-center text-center"><span className="grid h-16 w-16 place-items-center rounded-full bg-[#e9dfce]"><UtensilsCrossed className="h-7 w-7 text-[#d95f32]" /></span><h3 className="mt-5 font-display text-3xl tracking-[-0.05em]">Un peu faim ?</h3><p className="mt-2 max-w-64 text-sm leading-6 text-[#685a4d]">Votre sélection apparaîtra ici, prête à être finalisée.</p><button className="mt-5 font-bold underline decoration-[#d95f32] decoration-2 underline-offset-4" onClick={() => setCartOpen(false)}>Explorer la carte</button></div>
               ) : cart.map((item) => (
-                <div key={item.id} className="flex gap-3 border-b border-dashed border-[#2f251e]/15 py-4 first:pt-0"><img src={item.image} alt="" className="h-[74px] w-[74px] rounded-[1rem_1rem_1rem_0.25rem] object-cover" /><div className="min-w-0 flex-1"><div className="flex justify-between gap-2"><h3 className="font-display text-xl leading-5 tracking-[-0.04em]">{item.name}</h3><span className="text-sm font-bold">{formatPrice(item.price * item.quantity)}</span></div><div className="mt-3 flex items-center justify-between"><div className="quantity-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label={`Retirer un ${item.name}`}><Minus className="h-3.5 w-3.5" /></button><span>{item.quantity}</span><button onClick={() => changeQuantity(item.id, 1)} aria-label={`Ajouter un ${item.name}`}><Plus className="h-3.5 w-3.5" /></button></div><button className="text-xs font-bold text-[#685a4d] underline underline-offset-4" onClick={() => changeQuantity(item.id, -item.quantity)}>Retirer</button></div></div></div>
+                <div key={item.lineKey} className="flex gap-3 border-b border-dashed border-[#2f251e]/15 py-4 first:pt-0"><img src={item.image} alt="" className="h-[74px] w-[74px] rounded-[1rem_1rem_1rem_0.25rem] object-cover" /><div className="min-w-0 flex-1"><div className="flex justify-between gap-2"><h3 className="font-display text-xl leading-5 tracking-[-0.04em]">{item.name}</h3><span className="text-sm font-bold">{formatPrice(item.finalPrice * item.quantity)}</span></div>{item.options.length > 0 && <p className="mt-2 text-xs leading-5 text-[#685a4d]">{item.options.join(" · ")}</p>}<div className="mt-3 flex items-center justify-between"><div className="quantity-control"><button onClick={() => changeQuantity(item.lineKey, -1)} aria-label={`Retirer un ${item.name}`}><Minus className="h-3.5 w-3.5" /></button><span>{item.quantity}</span><button onClick={() => changeQuantity(item.lineKey, 1)} aria-label={`Ajouter un ${item.name}`}><Plus className="h-3.5 w-3.5" /></button></div><button className="text-xs font-bold text-[#685a4d] underline underline-offset-4" onClick={() => changeQuantity(item.lineKey, -item.quantity)}>Retirer</button></div></div></div>
               ))}
             </div>
             {cart.length > 0 && <div className="border-t border-[#2f251e]/10 bg-[#f4ecdf] p-6"><div className="flex justify-between font-semibold"><span>Sous-total</span><span>{formatPrice(subtotal)}</span></div><p className="mt-2 text-xs leading-5 text-[#685a4d]">Taxes et détails de retrait à l’étape suivante.</p><button className="primary-cta mt-5 w-full justify-center" onClick={() => showNotice("Le raccordement au checkout est prêt à être configuré.")}>Continuer la commande <ArrowRight className="h-4 w-4" /></button></div>}
