@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════════════
+   RESTAURANT DASHBOARD v6 — Mobile-First Dark Gold
+   Reset total pour neutraliser Elementor/thème
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── RESET AGRESSIF ──────────────────────────────────────── */
+#rd-app, #rd-app * { box-sizing: border-box !important; }
+#rd-app { all: initial; display: block; }
+#rd-app * { font-family: 'DM Sans', sans-serif; }
+
+:root {
+  --gold:     #C9A84C;
+  --gold2:    #E8C76A;
+  --golddim:  rgba(201,168,76,.12);
+  --bg:       #090909;
+  --s1:       #111111;
+  --s2:       #1a1a1a;
+  --s3:       #222222;
+  --border:   rgba(255,255,255,.07);
+  --border2:  rgba(255,255,255,.13);
+  --text:     #F0EDE6;
+  --text2:    #888880;
+  --muted:    #444;
+  --green:    #22C55E;
+  --red:      #EF4444;
+  --greendim: rgba(34,197,94,.12);
+  --reddim:   rgba(239,68,68,.12);
+}
+
+#rd-app {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  display: block !important;
+  overflow-x: hidden !important;
+  padding-bottom: 80px !important;
+}
+
+/* ══ HEADER ════════════════════════════════════════════════ */
+.rd-header {
+  background: var(--bg) !important;
+  padding: 16px 16px 14px !important;
+  position: sticky !important; top: 0 !important; z-index: 200 !important;
+  border-bottom: 1px solid var(--border) !important; display: block !important;
+}
+.rd-header-top {
+  display: flex !important; align-items: center !important;
+  gap: 10px !important; margin-bottom: 12px !important;
+}
+.rd-logo {

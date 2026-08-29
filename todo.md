@@ -97,3 +97,23 @@ Les radios servent aux choix exclusifs et obligatoires, avec une option par déf
 - [x] Compléter le contrôle explicite des états mobile/scroll et des réglages WooCommerce si l’accès reste disponible.
 
 Rapport : la validation WordPress v4 a confirmé le thème actif, le logo transparent, la home, le quick view, la page produit alias, le side cart et le lien WhatsApp configuré. Les tests Vitest (4/4), le contrôle TypeScript et le build de production passent après rétablissement du script `test`.
+
+## Nouvelle demande — dashboard restaurateur Savoro
+- [ ] Inspecter le package dashboard joint et relever ses écrans, composants et flux réutilisables.
+- [ ] Adapter le dashboard à la palette, typographie et composants visuels Savoro.
+- [ ] Permettre au restaurateur de créer, modifier et archiver des produits.
+- [ ] Permettre de gérer les catégories et l’ordre d’affichage.
+- [ ] Permettre de gérer les dimensions L/XL/XXL, sauces et suppléments.
+- [ ] Ajouter des règles configurables min/max, notamment maximum 2 sauces.
+- [ ] Relier le dashboard au catalogue WooCommerce réel sans données fictives.
+- [ ] Protéger l’accès du dashboard par authentification et rôle administrateur/restaurateur.
+- [ ] Tester les règles de sélection, les permissions, le responsive et le parcours client.
+- [ ] Documenter l’accès simplifié pour le restaurateur et sauvegarder un checkpoint final.
+
+## Nouvelle priorité — dépôt GitHub et passation
+- [x] Arrêter l’adaptation du dashboard restaurateur en cours et conserver ses fichiers comme état de travail documenté.
+- [x] Auditer les fichiers réellement présents dans le projet, y compris le thème WordPress et le dashboard joint.
+- [x] Rédiger un README et un document de passation détaillant architecture, installation, intégration WordPress/WooCommerce, WhatsApp, tests et points restant à faire.
+- [x] Vérifier les fichiers sensibles et compléter le .gitignore avant publication du dépôt.
+- [ ] Créer un dépôt GitHub privé et y pousser l’intégralité du projet.
+- [ ] Vérifier le dépôt distant et transmettre son lien.
