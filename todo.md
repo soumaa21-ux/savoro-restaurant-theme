@@ -115,5 +115,5 @@ Rapport : la validation WordPress v4 a confirmé le thème actif, le logo transp
 - [x] Auditer les fichiers réellement présents dans le projet, y compris le thème WordPress et le dashboard joint.
 - [x] Rédiger un README et un document de passation détaillant architecture, installation, intégration WordPress/WooCommerce, WhatsApp, tests et points restant à faire.
 - [x] Vérifier les fichiers sensibles et compléter le .gitignore avant publication du dépôt.
-- [ ] Créer un dépôt GitHub privé et y pousser l’intégralité du projet.
-- [ ] Vérifier le dépôt distant et transmettre son lien.
+- [x] Créer un dépôt GitHub privé et y pousser l’intégralité du projet.
+- [x] Vérifier le dépôt distant et transmettre son lien.
