@@ -99,16 +99,16 @@ Les radios servent aux choix exclusifs et obligatoires, avec une option par déf
 Rapport : la validation WordPress v4 a confirmé le thème actif, le logo transparent, la home, le quick view, la page produit alias, le side cart et le lien WhatsApp configuré. Les tests Vitest (4/4), le contrôle TypeScript et le build de production passent après rétablissement du script `test`.
 
 ## Nouvelle demande — dashboard restaurateur Savoro
-- [ ] Inspecter le package dashboard joint et relever ses écrans, composants et flux réutilisables.
-- [ ] Adapter le dashboard à la palette, typographie et composants visuels Savoro.
-- [ ] Permettre au restaurateur de créer, modifier et archiver des produits.
-- [ ] Permettre de gérer les catégories et l’ordre d’affichage.
-- [ ] Permettre de gérer les dimensions L/XL/XXL, sauces et suppléments.
-- [ ] Ajouter des règles configurables min/max, notamment maximum 2 sauces.
-- [ ] Relier le dashboard au catalogue WooCommerce réel sans données fictives.
-- [ ] Protéger l’accès du dashboard par authentification et rôle administrateur/restaurateur.
-- [ ] Tester les règles de sélection, les permissions, le responsive et le parcours client.
-- [ ] Documenter l’accès simplifié pour le restaurateur et sauvegarder un checkpoint final.
+- [x] Inspecter le package dashboard joint et relever ses écrans, composants et flux réutilisables — adaptation arrêtée sur instruction du propriétaire.
+- [x] Adapter le dashboard à la palette, typographie et composants visuels Savoro — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Permettre au restaurateur de créer, modifier et archiver des produits — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Permettre de gérer les catégories et l’ordre d’affichage — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Permettre de gérer les dimensions L/XL/XXL, sauces et suppléments — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Ajouter des règles configurables min/max, notamment maximum 2 sauces — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Relier le dashboard au catalogue WooCommerce réel sans données fictives — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Protéger l’accès du dashboard par authentification et rôle administrateur/restaurateur — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Tester les règles de sélection, les permissions, le responsive et le parcours client — reporté, adaptation arrêtée sur instruction du propriétaire.
+- [x] Documenter l’accès simplifié pour le restaurateur et sauvegarder un checkpoint final — passation préparée ; adaptation arrêtée sur instruction du propriétaire.
 
 ## Nouvelle priorité — dépôt GitHub et passation
 - [x] Arrêter l’adaptation du dashboard restaurateur en cours et conserver ses fichiers comme état de travail documenté.
